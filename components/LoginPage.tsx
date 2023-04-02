@@ -1,4 +1,14 @@
-export default function LoginPage() {
+async function getAccounts() {
+  const res = await fetch(`${process.env.BASE_URL}/getAccounts/`)
+  if (!res.ok) {
+    console.log(res)
+  }
+  return res.json()
+}
+
+export default async function LoginPage() {
+  const data: { email: string; password: string }[] = await getAccounts()
+  console.log(data)
   return (
     <div className='flex h-screen'>
       <div className='flex items-center justify-around w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700'>
@@ -50,6 +60,9 @@ export default function LoginPage() {
             Login
           </button>
           <span className='ml-2 text-sm cursor-pointer hover:text-blue-500'>Forgot Password ?</span>
+          {data.map(account => (
+            <h1>{account.email}</h1>
+          ))}
         </form>
       </div>
     </div>
