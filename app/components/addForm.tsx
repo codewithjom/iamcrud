@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 const formSchema = z.object({
@@ -17,7 +17,7 @@ const formSchema = z.object({
   })
 })
 
-export default function FormProfile() {
+export default function AddForm() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -28,11 +28,27 @@ export default function FormProfile() {
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await fetch('/api/addUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      })
+
+      if (response.ok) {
+        console.log('User created successfully')
+        // Add any additional logic or redirection here
+      } else {
+        console.error('Error creating user')
+      }
+    } catch (error) {
+      console.error('Error creating user', error)
+    }
   }
+
   return (
     <>
       <Form {...form}>
