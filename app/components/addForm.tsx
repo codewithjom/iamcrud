@@ -40,7 +40,6 @@ export default function AddForm() {
 
       if (response.ok) {
         console.log('User created successfully')
-        // Add any additional logic or redirection here
       } else {
         console.error('Error creating user')
       }
