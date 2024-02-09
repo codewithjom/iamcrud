@@ -5,8 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'iamcrud',
-  description: 'Simple crud for nextjs.'
+  title: 'iamcrud'
 }
 
 export default function RootLayout({
@@ -16,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`bg-gray-200 ${inter.className}`}>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
