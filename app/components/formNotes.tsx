@@ -18,6 +18,7 @@ export default function FormNotes() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,6 +41,7 @@ export default function FormNotes() {
 
       if (response.ok) {
         console.log('Notes added successfully')
+        reset()
       } else {
         console.error('Error creating notes')
       }
