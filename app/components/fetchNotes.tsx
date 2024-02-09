@@ -73,6 +73,31 @@ export default function FetchNotes() {
     }
   }
 
+  const handleDelete = async (id: number) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete?')
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch('/api/deleteNote', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id })
+        })
+
+        if (response.ok) {
+          console.log('Note deleted successfully')
+          setNotes(prevNotes => prevNotes.filter(note => note.id !== id))
+        } else {
+          console.error('Failed to delete note')
+        }
+      } catch (error) {
+        console.error('Error deleting note', error)
+      }
+    }
+  }
+
   return (
     <>
       <div className='max-w-2xl mx-auto mt-10'>
@@ -131,7 +156,7 @@ export default function FetchNotes() {
                   ) : (
                     <>
                       <FontAwesomeIcon icon={faEdit} onClick={() => handleUpdate(note.id)} className='text-blue-500 cursor-pointer mx-2' />
-                      <FontAwesomeIcon icon={faTrash} className='text-red-500 cursor-pointer mx-2' />
+                      <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(note.id)} className='text-red-500 cursor-pointer mx-2' />
                     </>
                   )}
                 </td>
